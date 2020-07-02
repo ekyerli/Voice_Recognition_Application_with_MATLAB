@@ -1,0 +1,27 @@
+close all
+clear 
+clc
+[y,fs] = audioread('dataödev.wav');%wav dosyasýný matlab'e çektim.
+info = audioinfo('dataödev.wav')%bunu info.durationý almak için yapmak gerekti.
+t = 0:seconds(1/fs):seconds(info.Duration);%t yi ayarladým.
+t = t(1:end-1);%t yi ayarladým.
+level=0.11;%genliðimiz 0-1 arasýnda istediðimiz seviyeyi ayarlayabiliyoruz.
+q = quant(y,level)%istediðimiz seviye ile quantize ediyoruz.
+plot(t,y,'b')%modifiye olmayan orijinal ses sinyalimizi çizdiriyoruz.
+title('Orijinal sinyal')
+xlabel('Time')
+ylabel('Audio Signal')
+figure%modifiye yi farklý tabloda görmek için
+plot(t,q,'r')% modifiye edilmiþ ses sinyali çizdiriyoruz.
+title('Quantize edilmiþ sinyal')
+xlabel('Time')
+ylabel('Audio Signal')
+figure%modifiye edilmiþ ve orijinal sinyali farklý tabloda görmek için
+plot(t,y,'b',t,q)%modifiye edilmiþ ve orijinal sinyal bi arada
+title('Orijinal ve quantize beraber')
+xlabel('Time')
+ylabel('Audio Signal')
+sound(q,fs); %sesimizi dinliyoruz.
+figure;%psd yi farklý tabloda görmek için
+periodogram(y,rectwin(length(y)),length(y),fs)%psd
+
